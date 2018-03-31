@@ -34,22 +34,14 @@ namespace GitHubFolderDownloader.Core
                     () => _guiModelData.GitHubEntries.Clear());
                 if (!NetworkStatus.IsConnectedToInternet())
                 {
-<<<<<<< HEAD
                     Trace.WriteLine("Internet connection is not avalaible.", "Error");
-=======
-                    Trace.WriteLine("Internet connection is not avalaible.", "Errors");
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                     return;
                 }
 
                 var entries = getGitHubEntries(_guiModelData.RepositorySubDir, _guiModelData.SelectedBranch);
                 if (!entries.Any())
                 {
-<<<<<<< HEAD
                     Trace.WriteLine("The folder is empty.", "Error");
-=======
-                    Trace.WriteLine("The folder is empty.", "Errors");
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                     return;
                 }
 
@@ -114,11 +106,7 @@ namespace GitHubFolderDownloader.Core
                 }
                 catch (Exception ex)
                 {
-<<<<<<< HEAD
                     Trace.WriteLine($"{localItem.DownloadUrl} -> {ex.Message}", "Error");
-=======
-                    Trace.WriteLine($"{localItem.DownloadUrl} -> {ex.Message}", "Errors");
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                 }
             };
             return action;
@@ -174,11 +162,7 @@ namespace GitHubFolderDownloader.Core
             }
             catch (Exception ex)
             {
-<<<<<<< HEAD
                 Trace.WriteLine(ex.Message, "Error");
-=======
-                Trace.WriteLine(ex.Message, "Errors");
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
             }
             finally
             {

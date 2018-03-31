@@ -1,21 +1,11 @@
-<<<<<<< HEAD
 ﻿ <Window 
-=======
-﻿<Window 
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
     xmlns="https://github.com/avaloniaui" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:behaviors="clr-namespace:GitHubFolderDownloader.Behaviors" 
     xmlns:viewModels="clr-namespace:GitHubFolderDownloader.ViewModels" 
-<<<<<<< HEAD
     xmlns:views="clr-namespace:GitHubFolderDownloader.Views" Title="{Binding Title}" Height="542" Width="720">
     <StackPanel>
         <StackPanel Grid.Row="1" Grid.RowSpan="1" Margin="5" Orientation="Horizontal">
-=======
-    xmlns:views="clr-namespace:GitHubFolderDownloader.Views" Title="GitHub Folder Downloader V1.3" FontFamily="Tahoma" Height="542" Width="720">
-    <StackPanel>
-        <StackPanel Grid.Row="1" Grid.RowSpan="1" Margin="15" Orientation="Horizontal">
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
             <Button Command="{Binding StartCommand}">
                 <Image Source="resm:GitHubFolderDownloader.Images.run.png"/>
             </Button>
@@ -25,11 +15,7 @@
         </StackPanel>
         <views:Settings/>
         <views:Progress/>
-<<<<<<< HEAD
         <TextBox AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap" 
         VerticalAlignment="Stretch" Text="{Binding GuiModelData.Logs}" MinHeight="100" MaxHeight="200" Margin="2"/>
-=======
-        <TextBlock VerticalAlignment="Stretch" Text="{Binding GuiModelData.Logs}" Height="100"/>
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
     </StackPanel>
 </Window>

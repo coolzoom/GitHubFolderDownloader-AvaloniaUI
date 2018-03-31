@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-<<<<<<< HEAD
-using Avalonia.Collections;
-=======
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
 using GitHubFolderDownloader.Toolkit;
 
 namespace GitHubFolderDownloader.Models
@@ -24,22 +20,14 @@ namespace GitHubFolderDownloader.Models
         private string _repositorySubDir;
         private string _selectedBranch = string.Empty;
         private List<string> _branches = new List<string> { "master" };
-<<<<<<< HEAD
         private TraceRedirector _traceRedirector;
         private bool _hasStarted;
-=======
-        private TraceListenerRedirector _traceRedirector;
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
 
         public GuiModel()
         {
             GitHubEntries = new ObservableCollection<GitHubEntry>();
 
-<<<<<<< HEAD
             _traceRedirector = new TraceRedirector();
-=======
-            _traceRedirector = new TraceListenerRedirector();
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
             Trace.Listeners.Add(_traceRedirector);
             _traceRedirector.WriteAction = (_) =>
             {
@@ -96,7 +84,6 @@ namespace GitHubFolderDownloader.Models
             {
                 _repositoryFolderFullUrl = value;
                 NotifyPropertyChanged(nameof(RepositoryFolderFullUrl));
-<<<<<<< HEAD
             }
         }
 
@@ -107,8 +94,6 @@ namespace GitHubFolderDownloader.Models
             {
                 _hasStarted = value;
                 NotifyPropertyChanged(nameof(HasStarted));
-=======
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
             }
         }
 

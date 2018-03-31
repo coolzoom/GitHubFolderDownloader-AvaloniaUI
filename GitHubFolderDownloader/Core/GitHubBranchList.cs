@@ -44,11 +44,7 @@ namespace GitHubFolderDownloader.Core
                     {
                         task.Exception.Flatten().Handle(ex =>
                         {
-<<<<<<< HEAD
                             Trace.WriteLine(ex.Message, "Error");
-=======
-                            Trace.WriteLine(ex.Message, "Errors");
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                             return false;
                         });
                     }

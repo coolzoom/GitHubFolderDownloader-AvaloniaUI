@@ -1,15 +1,11 @@
 ﻿<UserControl 
     xmlns="https://github.com/avaloniaui" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-<<<<<<< HEAD
     xmlns:m="clr-namespace:GitHubFolderDownloader.Models.GitHubEntry"
-=======
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
     xmlns:converters="clr-namespace:GitHubFolderDownloader.Converters">
     <UserControl.Resources>
         <converters:SizeFormatConverter x:Key="ConvSizeFormatConverter" />
     </UserControl.Resources>
-<<<<<<< HEAD
     <StackPanel>
         <ListBox Height="100" Items="{Binding GuiModelData.GitHubEntries}">
             <ListBox.ItemTemplate>
@@ -26,28 +22,4 @@
         </ListBox>
         <ProgressBar Value="{Binding GuiModelData.ProgressBarValue}" Margin="3"/>
     </StackPanel>
-=======
-    <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <ListBox Margin="2" Grid.Row="0" Items="{Binding GuiModelData.GitHubEntries}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="1" Text="{Binding Path, Mode=OneTime}" />
-                            <TextBlock Margin="1" Text="{Binding Type, Mode=OneTime}" />
-                            <TextBlock Margin="1" Text="{Binding Size, Converter={StaticResource ConvSizeFormatConverter}, Mode=OneTime}" />
-                            <ProgressBar HorizontalAlignment="Stretch" Value="{Binding DownloadPercent}" Height="5" Margin="3" Width="Auto" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <!-- <ListView.DataTemplate><GridView><GridViewColumn Width="300" Header="Path"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn><GridViewColumn Width="80" Header="Type"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn><GridViewColumn Width="80" Header="Size"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn><GridViewColumn Width="100" Header="Progress"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn></GridView></ListView.View> -->
-            </ListBox>
-            <ProgressBar Grid.Row="1" Value="{Binding GuiModelData.ProgressBarValue}" Margin="2"/>
-        </Grid>
-    </Grid>
->>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
 </UserControl>
