@@ -9,10 +9,11 @@ using ReactiveUI;
 using Avalonia;
 using System.Reactive.Linq;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace GitHubFolderDownloader.ViewModels
 {
-    public class MainWindowViewModel 
+    public class MainWindowViewModel
     {
         private readonly GitHubDownloader _gitHubDownloader;
         private bool _isStarted;
@@ -24,7 +25,7 @@ namespace GitHubFolderDownloader.ViewModels
 
             GuiModelData = new GuiModel
             {
-                GitHubToken = ConfigSetGet.GetConfigData("GitHubToken")
+                GitHubToken = PersistentConfig.GetConfigData("GitHubToken")
             };
 
             GuiModelData.PropertyChanged += PropertyChanged;
@@ -45,7 +46,7 @@ namespace GitHubFolderDownloader.ViewModels
 
         }
 
-
+        public string Title { get; set; } = $"Github Folder Downloader 2.0.0";
         public GuiModel GuiModelData { set; get; }
 
         public ReactiveCommand StartCommand { get; set; }
@@ -58,10 +59,11 @@ namespace GitHubFolderDownloader.ViewModels
                                       x => x.OutputPath, (a, b, c) =>
                                         !string.IsNullOrWhiteSpace(a) &&
                                         !string.IsNullOrWhiteSpace(b) &&
-                                        !string.IsNullOrWhiteSpace(c));
+                                        !string.IsNullOrWhiteSpace(c) &&
+                                        !_isStarted);
 
 
-                                        
+
         private void ExitApp(object sender, EventArgs e)
         {
             SaveSettings();
@@ -105,7 +107,7 @@ namespace GitHubFolderDownloader.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(GuiModelData.GitHubToken))
             {
-                ConfigSetGet.SetConfigData("GitHubToken", GuiModelData.GitHubToken);
+                PersistentConfig.SetConfigData("GitHubToken", GuiModelData.GitHubToken);
             }
         }
 

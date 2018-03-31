@@ -7,4 +7,5 @@ namespace GitHubFolderDownloader.Models
         [JsonProperty(PropertyName = "name")]
         public string Name { set; get; }
     }
+
 }

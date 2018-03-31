@@ -2,9 +2,9 @@
 
 namespace GitHubFolderDownloader.Toolkit
 {
-    public class FilesInfo
+    public static class FilesInfo
     {
-        public static string FormatSize(double dblFileSize)
+        public static string ToBytesReadable(this long dblFileSize)
         {
             if (dblFileSize < 1024)
                 return String.Format("{0:N0} B", dblFileSize);

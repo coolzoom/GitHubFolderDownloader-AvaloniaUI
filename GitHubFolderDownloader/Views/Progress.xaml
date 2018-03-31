@@ -3,9 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:m="clr-namespace:GitHubFolderDownloader.Models.GitHubEntry"
     xmlns:converters="clr-namespace:GitHubFolderDownloader.Converters">
-    <UserControl.Resources>
-        <converters:SizeFormatConverter x:Key="ConvSizeFormatConverter" />
-    </UserControl.Resources>
     <StackPanel>
         <ListBox Height="100" Items="{Binding GuiModelData.GitHubEntries}">
             <ListBox.ItemTemplate>
@@ -13,8 +10,8 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="1" Text="{Binding Path}" Width="300" />
                         <TextBlock Margin="1" Text="{Binding Type}" Width="20" />
-                        <TextBlock Margin="1" Text="{Binding Size}" Width="300"  />
-                        <ProgressBar HorizontalAlignment="Stretch" Value="{Binding DownloadPercent}" Width="300"  />
+                        <TextBlock Margin="1" Text="{Binding ConvertedSize}" />
+                        <ProgressBar HorizontalAlignment="Stretch" Value="{Binding DownloadPercent}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

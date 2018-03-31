@@ -1,34 +1,24 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
+using GitHubFolderDownloader.Models;
 using LiteDB;
 
 namespace GitHubFolderDownloader.Toolkit
 {
-    public static class ConfigSetGet
+    public static class PersistentConfig
     {
         public const string AppSettingsDBName = "GitFldrSettings.db";
-        public class AppSetting
-        {
-            [BsonId]
-            public string Key { get; set; }
-            public string Value { get; set; }
-        }
+
         /// <summary>
-        /// read settings from app.config/web.config file
+        /// Retrieves application settings stored in a
+        /// LiteDB database.    
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        /// <exception cref="ConfigurationErrorsException">Could not retrieve a <see cref="T:System.Collections.Specialized.NameValueCollection" /> object with the application settings data.</exception>
-        /// <exception cref="InvalidOperationException">Undefined key in app.config/web.config.</exception>
         public static string GetConfigData(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentNullException("key");
-
-            // //don't load on design time
-            // if (Designer.IsInDesignModeStatic)
-            //     return "0";
 
             try
             {
@@ -37,20 +27,17 @@ namespace GitHubFolderDownloader.Toolkit
                     return db.Query<AppSetting>().Where(p => p.Key == key).Single().Value;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine($"Error occurred on retrieving {key} : {e.Message}", "Warning");
                 return "";
             }
-
-
-            // if (!ConfigurationManager.AppSettings.AllKeys.Any(keyItem => keyItem.Equals(key)))
-            // {
-            //     throw new InvalidOperationException(string.Format("Undefined key in app.config/web.config: {0}", key));
-            // }
-
-            // return ConfigurationManager.AppSettings[key];
         }
 
+        /// <summary>
+        /// Stores a Key-Value pair to the 
+        /// persistence database.
+        /// </summary>
         public static void SetConfigData(string key, string data)
         {
             if (string.IsNullOrWhiteSpace(key))
@@ -72,11 +59,7 @@ namespace GitHubFolderDownloader.Toolkit
                         Value = data
                     });
                 }
-            }
-            // var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            // config.AppSettings.Settings[key].Value = data;
-            // config.Save(ConfigurationSaveMode.Modified);
-            // ConfigurationManager.RefreshSection("appSettings");
+            } 
         }
     }
 }

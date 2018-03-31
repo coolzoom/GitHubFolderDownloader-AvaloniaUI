@@ -42,7 +42,7 @@ namespace GitHubFolderDownloader.Toolkit
             request.KeepAlive = false;
             request.Timeout = 15000;
             request.ReadWriteTimeout = 15000;
-            request.Headers.Add("Authorization", string.Format("Token {0}", ConfigSetGet.GetConfigData("GitHubToken")));
+            request.Headers.Add("Authorization", string.Format("Token {0}", PersistentConfig.GetConfigData("GitHubToken")));
 
             using (var webResponse = (HttpWebResponse)request.GetResponse())
             {

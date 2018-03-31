@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel;
 using Newtonsoft.Json;
+using GitHubFolderDownloader.Toolkit;
 
 namespace GitHubFolderDownloader.Models
 {
     public class GitHubEntry : INotifyPropertyChanged
     {
         private int _downloadPercent;
+
+        public string ConvertedSize => Size.ToBytesReadable();
 
         public int DownloadPercent
         {
