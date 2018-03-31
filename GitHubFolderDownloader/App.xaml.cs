@@ -1,60 +1,26 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Animation;
-using System.Windows.Threading;
-using GitHubFolderDownloader.Toolkit;
+﻿using Avalonia;
+using Avalonia.Logging.Serilog;
+using Avalonia.Markup.Xaml;
+using GitHubFolderDownloader.ViewModels;
 
 namespace GitHubFolderDownloader
 {
-    public partial class App
+    public class App : Application
     {
-        public App()
+        public override void Initialize()
         {
-            this.Startup += appStartup;
-            AppDomain.CurrentDomain.UnhandledException += currentDomainUnhandledException;
-            Current.DispatcherUnhandledException += appDispatcherUnhandledException;
-            TaskScheduler.UnobservedTaskException += taskSchedulerUnobservedTaskException;
+            AvaloniaXamlLoader.Load(this);
+        } 
+        
+        static void Main(string[] args)
+        {
+            BuildAvaloniaApp().Start<MainWindow>(() => new MainWindowViewModel());
         }
 
-        private static void appDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            e.Handled = true;
-            AppMessenger.Messenger.NotifyColleagues("ShowLog", e.Exception.Message);
-        }
-
-        static void appStartup(object sender, StartupEventArgs e)
-        {
-            reducingCpuConsumptionForAnimations();
-        }
-
-        private static void currentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            var ex = (Exception)e.ExceptionObject;
-            AppMessenger.Messenger.NotifyColleagues("ShowLog", ex.Message);
-
-            if (e.IsTerminating)
-            {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        static void reducingCpuConsumptionForAnimations()
-        {
-            Timeline.DesiredFrameRateProperty.OverrideMetadata(
-                 typeof(Timeline),
-                 new FrameworkPropertyMetadata { DefaultValue = 20 }
-                 );
-        }
-
-        void taskSchedulerUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
-        {
-            e.SetObserved();
-            e.Exception.Flatten().Handle(ex =>
-            {
-                AppMessenger.Messenger.NotifyColleagues("ShowLog", ex.Message);
-                return true;
-            });
-        }
+        public static AppBuilder BuildAvaloniaApp()
+            => AppBuilder.Configure<App>()
+                .UsePlatformDetect()
+                .UseReactiveUI()
+                .LogToDebug();
     }
 }

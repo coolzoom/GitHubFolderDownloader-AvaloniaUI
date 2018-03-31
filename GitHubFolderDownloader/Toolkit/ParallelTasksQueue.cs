@@ -33,8 +33,7 @@ namespace GitHubFolderDownloader.Toolkit
                         TryExecuteTask(task);
                     }
                 }) { IsBackground = true, Priority = _threadPriority };
-                thread.SetApartmentState(_apartmentState);
-                return thread;
+                 return thread;
             }).ToList();
 
             _threads.ForEach(t => t.Start());

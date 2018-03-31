@@ -4,88 +4,130 @@ using System.Windows;
 using GitHubFolderDownloader.Core;
 using GitHubFolderDownloader.Models;
 using GitHubFolderDownloader.Toolkit;
+using Avalonia.Reactive;
+using ReactiveUI;
+using Avalonia;
+using System.Reactive.Linq;
+using System.Diagnostics;
 
 namespace GitHubFolderDownloader.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel 
     {
         private readonly GitHubDownloader _gitHubDownloader;
         private bool _isStarted;
 
+
+
         public MainWindowViewModel()
         {
+
             GuiModelData = new GuiModel
             {
                 GitHubToken = ConfigSetGet.GetConfigData("GitHubToken")
             };
+
+<<<<<<< HEAD
+            GuiModelData.PropertyChanged += PropertyChanged;
+=======
             GuiModelData.PropertyChanged += guiModelDataPropertyChanged;
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
 
             _gitHubDownloader = new GitHubDownloader(GuiModelData)
             {
                 Finished = url =>
                 {
-                    addLog(string.Format("Finished {0}.", url));
+                    Trace.WriteLine($"Finished {url}.", "Info");
                     _isStarted = false;
                 }
             };
 
-            StartCommand = new DelegateCommand<string>(doStart, canDoStart);
-            StopCommand = new DelegateCommand<string>(doStop, stat => true);
+<<<<<<< HEAD
+            StartCommand = ReactiveCommand.Create(() => StartDownload(), CanDownloadExecute);
+            StopCommand = ReactiveCommand.Create(() => StopDownload());
 
-            AppMessenger.Messenger.Register<string>("ShowLog", log => addLog(log));
-            manageAppExit();
+            ManageAppExit();
+
         }
+
 
         public GuiModel GuiModelData { set; get; }
 
-        public DelegateCommand<string> StartCommand { set; get; }
+        public ReactiveCommand StartCommand { get; set; }
 
-        public DelegateCommand<string> StopCommand { set; get; }
+        public ReactiveCommand StopCommand { set; get; }
 
-        private void addLog(string log)
-        {
-            DispatcherHelper.DispatchAction(() =>
-            {
-                GuiModelData.Logs += string.Format("{0} {1}", DateTime.Now, log) + Environment.NewLine;
-            });
+        private IObservable<bool> CanDownloadExecute =>
+            GuiModelData.WhenAnyValue(x => x.RepositoryName,
+                                      x => x.RepositoryOwner,
+                                      x => x.OutputPath, (a, b, c) =>
+                                        !string.IsNullOrWhiteSpace(a) &&
+                                        !string.IsNullOrWhiteSpace(b) &&
+                                        !string.IsNullOrWhiteSpace(c));
+
+
+                                        
+        private void ExitApp(object sender, EventArgs e)
+=======
+            StartCommand = ReactiveCommand.Create(() => doStart(), canDoStart);
+            StopCommand = ReactiveCommand.Create(() => doStop());
+
+          //  AppMessenger.Messenger.Register<string>("ShowLog", log => addLog(log));
+            manageAppExit();
+
         }
 
-        private bool canDoStart(string data)
-        {
-            return !string.IsNullOrWhiteSpace(GuiModelData.RepositoryName) &&
-                   !string.IsNullOrWhiteSpace(GuiModelData.RepositoryOwner) &&
-                   !string.IsNullOrWhiteSpace(GuiModelData.OutputPath) &&
-                   !_isStarted;
-        }
+ 
+        public GuiModel GuiModelData { set; get; }
 
-        private void currentExit(object sender, ExitEventArgs e)
+        public ReactiveCommand StartCommand { get; set; }
+
+        public ReactiveCommand StopCommand { set; get; }
+ 
+
+        private IObservable<bool> canDoStart =>
+        GuiModelData.WhenAnyValue(x => x.RepositoryName,
+                                  x => x.RepositoryOwner,
+                                  x => x.OutputPath, (a, b, c) =>
+                                  {
+                                      return !string.IsNullOrWhiteSpace(a) &&
+                                      !string.IsNullOrWhiteSpace(b) &&
+                                      !string.IsNullOrWhiteSpace(c) &&
+                                      !_isStarted;
+                                  });
+
+        private void currentExit(object sender, EventArgs e)
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
         {
-            saveSettings();
+            SaveSettings();
             _gitHubDownloader.Stop();
         }
 
-        private void currentSessionEnding(object sender, SessionEndingCancelEventArgs e)
-        {
-            saveSettings();
-            _gitHubDownloader.Stop();
-        }
 
-        private void doStart(string data)
+<<<<<<< HEAD
+        private void StartDownload()
+=======
+        private void doStart()
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
         {
             _isStarted = true;
 
-            saveSettings();
+            SaveSettings();
 
             _gitHubDownloader.Start();
         }
 
-        private void doStop(string data)
+<<<<<<< HEAD
+        private void StopDownload()
+=======
+        private void doStop()
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
         {
             _gitHubDownloader.Stop();
             _isStarted = false;
         }
 
-        private void guiModelDataPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -96,19 +138,23 @@ namespace GitHubFolderDownloader.ViewModels
             }
         }
 
-        private void manageAppExit()
+        private void ManageAppExit()
         {
             if (Application.Current == null) return;
-            Application.Current.Exit += currentExit;
-            Application.Current.SessionEnding += currentSessionEnding;
+<<<<<<< HEAD
+            Application.Current.OnExit += ExitApp;
+=======
+            Application.Current.OnExit += currentExit;
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
         }
 
-        private void saveSettings()
+        private void SaveSettings()
         {
             if (!string.IsNullOrWhiteSpace(GuiModelData.GitHubToken))
             {
                 ConfigSetGet.SetConfigData("GitHubToken", GuiModelData.GitHubToken);
             }
         }
+
     }
 }

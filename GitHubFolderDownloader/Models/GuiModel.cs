@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+<<<<<<< HEAD
+using Avalonia.Collections;
+=======
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
+using GitHubFolderDownloader.Toolkit;
 
 namespace GitHubFolderDownloader.Models
 {
     public class GuiModel : INotifyPropertyChanged
     {
+
         private string _gitHubToken;
-        private string _logs;
-        private string _outputPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private String _logs;
+        private string _outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private double _progressBarValue;
         private string _repositoryFolderFullUrl;
         private string _repositoryName;
@@ -17,10 +24,27 @@ namespace GitHubFolderDownloader.Models
         private string _repositorySubDir;
         private string _selectedBranch = string.Empty;
         private List<string> _branches = new List<string> { "master" };
+<<<<<<< HEAD
+        private TraceRedirector _traceRedirector;
+        private bool _hasStarted;
+=======
+        private TraceListenerRedirector _traceRedirector;
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
 
         public GuiModel()
         {
             GitHubEntries = new ObservableCollection<GitHubEntry>();
+
+<<<<<<< HEAD
+            _traceRedirector = new TraceRedirector();
+=======
+            _traceRedirector = new TraceListenerRedirector();
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
+            Trace.Listeners.Add(_traceRedirector);
+            _traceRedirector.WriteAction = (_) =>
+            {
+                Logs += _;
+            };
         }
 
         public ObservableCollection<GitHubEntry> GitHubEntries { set; get; }
@@ -31,17 +55,17 @@ namespace GitHubFolderDownloader.Models
             set
             {
                 _gitHubToken = value;
-                notifyPropertyChanged("GitHubToken");
+                NotifyPropertyChanged(nameof(GitHubToken));
             }
         }
 
-        public string Logs
+        public String Logs
         {
             get { return _logs; }
             set
             {
                 _logs = value;
-                notifyPropertyChanged("Logs");
+                NotifyPropertyChanged(nameof(Logs));
             }
         }
 
@@ -51,7 +75,7 @@ namespace GitHubFolderDownloader.Models
             set
             {
                 _outputPath = value;
-                notifyPropertyChanged("OutputPath");
+                NotifyPropertyChanged(nameof(OutputPath));
             }
         }
 
@@ -61,7 +85,7 @@ namespace GitHubFolderDownloader.Models
             set
             {
                 _progressBarValue = value;
-                notifyPropertyChanged("ProgressBarValue");
+                NotifyPropertyChanged(nameof(ProgressBarValue));
             }
         }
 
@@ -71,7 +95,20 @@ namespace GitHubFolderDownloader.Models
             set
             {
                 _repositoryFolderFullUrl = value;
-                notifyPropertyChanged("RepositoryFolderFullUrl");
+                NotifyPropertyChanged(nameof(RepositoryFolderFullUrl));
+<<<<<<< HEAD
+            }
+        }
+
+        public bool HasStarted
+        {
+            get { return _hasStarted; }
+            set
+            {
+                _hasStarted = value;
+                NotifyPropertyChanged(nameof(HasStarted));
+=======
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
             }
         }
 
@@ -82,7 +119,7 @@ namespace GitHubFolderDownloader.Models
             {
                 if (value == null) value = string.Empty;
                 _repositoryName = value.Trim('/');
-                notifyPropertyChanged("RepositoryName");
+                NotifyPropertyChanged(nameof(RepositoryName));
             }
         }
 
@@ -93,7 +130,7 @@ namespace GitHubFolderDownloader.Models
             {
                 if (value == null) value = string.Empty;
                 _repositoryOwner = value.Trim('/');
-                notifyPropertyChanged("RepositoryOwner");
+                NotifyPropertyChanged(nameof(RepositoryOwner));
             }
         }
 
@@ -104,7 +141,7 @@ namespace GitHubFolderDownloader.Models
             {
                 if (value == null) value = string.Empty;
                 _repositorySubDir = value.Trim('/');
-                notifyPropertyChanged("RepositorySubDir");
+                NotifyPropertyChanged(nameof(RepositorySubDir));
             }
         }
 
@@ -115,7 +152,7 @@ namespace GitHubFolderDownloader.Models
             {
                 if (value == null) value = string.Empty;
                 _selectedBranch = value.Trim('/');
-                notifyPropertyChanged("SelectedBranch");
+                NotifyPropertyChanged(nameof(SelectedBranch));
             }
         }
 
@@ -125,17 +162,17 @@ namespace GitHubFolderDownloader.Models
             set
             {
                 _branches = value;
-                notifyPropertyChanged("Branches");
+                NotifyPropertyChanged(nameof(Branches));
             }
         }
 
-        #region INotifyPropertyChanged Members
+
         public event PropertyChangedEventHandler PropertyChanged;
-        private void notifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
+
     }
 }

@@ -1,44 +1,44 @@
-﻿using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Interactivity;
+﻿// using Avalonia;
+// using Avalonia.Controls;
+// using Avalonia.Xaml.Interactivity;
 
-namespace GitHubFolderDownloader.Behaviors
-{
-    public class FolderBrowserDialogBehavior : TargetedTriggerAction<System.Windows.Controls.Button>
-    {
-        public static readonly DependencyProperty FolderBrowserDescriptionProperty =
-           DependencyProperty.Register("FolderBrowserDescription", typeof(string),
-           typeof(FolderBrowserDialogBehavior), null);
+// namespace GitHubFolderDownloader.Behaviors
+// {
+//     public class FolderDialogBehavior : Trigger<Button>
+//     {
+//         public static readonly DependencyProperty FolderBrowserDescriptionProperty =
+//            DependencyProperty.Register("FolderBrowserDescription", typeof(string),
+//            typeof(FolderBrowserDialogBehavior), null);
 
-        public static readonly DependencyProperty FolderBrowserDialogResultCommandProperty =
-            DependencyProperty.Register("FolderBrowserDialogResultCommand",
-            typeof(object), typeof(FolderBrowserDialogBehavior), null);
+//         public static readonly DependencyProperty FolderBrowserDialogResultCommandProperty =
+//             DependencyProperty.Register("FolderBrowserDialogResultCommand",
+//             typeof(object), typeof(FolderBrowserDialogBehavior), null);
 
-        public string FolderBrowserDescription
-        {
-            get { return (string)GetValue(FolderBrowserDescriptionProperty); }
-            set { SetValue(FolderBrowserDescriptionProperty, value); }
-        }
+//         public string FolderBrowserDescription
+//         {
+//             get { return (string)GetValue(FolderBrowserDescriptionProperty); }
+//             set { SetValue(FolderBrowserDescriptionProperty, value); }
+//         }
 
-        public object FolderBrowserDialogResultCommand
-        {
-            get { return GetValue(FolderBrowserDialogResultCommandProperty); }
-            set { SetValue(FolderBrowserDialogResultCommandProperty, value); }
-        }
+//         public object FolderBrowserDialogResultCommand
+//         {
+//             get { return GetValue(FolderBrowserDialogResultCommandProperty); }
+//             set { SetValue(FolderBrowserDialogResultCommandProperty, value); }
+//         }
+ 
+//         protected override void Invoke(object parameter)
+//         {
+//             var folderBrowserDialog = new OpenFolderDialog();
 
-        protected override void Invoke(object parameter)
-        {
-            using (var folderBrowserDialog = new FolderBrowserDialog { ShowNewFolderButton = true })
-            {
-                if (!string.IsNullOrEmpty(FolderBrowserDescription))
-                {
-                    folderBrowserDialog.Description = FolderBrowserDescription;
-                }
+//             if (!string.IsNullOrEmpty(FolderBrowserDescription))
+//             {
+//                 folderBrowserDialog.Title = FolderBrowserDescription;
+//             }
 
-                var result = folderBrowserDialog.ShowDialog();
-                if (result == DialogResult.OK)
-                    FolderBrowserDialogResultCommand = folderBrowserDialog.SelectedPath;
-            }
-        }
-    }
-}
+//             var result = folderBrowserDialog.ShowAsync().GetAwaiter().GetResult();
+//             if (result != null)
+//                 FolderBrowserDialogResultCommand = result;
+//         }
+//     }
+// }
+// }

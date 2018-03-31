@@ -13,7 +13,7 @@ namespace GitHubFolderDownloader.Models
             {
                 if (_downloadPercent == value) return;
                 _downloadPercent = value;
-                notifyPropertyChanged("DownloadPercent");
+                NotifyPropertyChanged(nameof(DownloadPercent));
             }
             get { return _downloadPercent; }
         }
@@ -30,13 +30,13 @@ namespace GitHubFolderDownloader.Models
         [JsonProperty(PropertyName = "type")]
         public string Type { set; get; }
 
-        #region INotifyPropertyChanged Members
+        
         public event PropertyChangedEventHandler PropertyChanged;
-        private void notifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
+        
     }
 }

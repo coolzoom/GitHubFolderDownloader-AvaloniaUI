@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,21 +29,32 @@ namespace GitHubFolderDownloader.Core
         {
             Task.Factory.StartNew(() =>
             {
+
+                DispatcherHelper.DispatchAction(
+                    () => _guiModelData.GitHubEntries.Clear());
                 if (!NetworkStatus.IsConnectedToInternet())
                 {
-                    AppMessenger.Messenger.NotifyColleagues("ShowLog", "The internet connection was not found.");
+<<<<<<< HEAD
+                    Trace.WriteLine("Internet connection is not avalaible.", "Error");
+=======
+                    Trace.WriteLine("Internet connection is not avalaible.", "Errors");
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                     return;
                 }
 
                 var entries = getGitHubEntries(_guiModelData.RepositorySubDir, _guiModelData.SelectedBranch);
                 if (!entries.Any())
                 {
-                    AppMessenger.Messenger.NotifyColleagues("ShowLog", "The folder is empty.");
+<<<<<<< HEAD
+                    Trace.WriteLine("The folder is empty.", "Error");
+=======
+                    Trace.WriteLine("The folder is empty.", "Errors");
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                     return;
                 }
 
-                var baseFoler = getBaseFoler();
-                processListOfEntries(entries, baseFoler);
+                var baseFolder = getBaseFolder();
+                processListOfEntries(entries, baseFolder);
             }).ContinueWith(obj => Finished(getApiRootUrl()));
         }
 
@@ -69,7 +81,7 @@ namespace GitHubFolderDownloader.Core
             return new ApiUrl(_guiModelData).GetApiUrl(_guiModelData.RepositorySubDir, _guiModelData.SelectedBranch);
         }
 
-        private string getBaseFoler()
+        private string getBaseFolder()
         {
             var baseFoler = _guiModelData.OutputPath;
             if (!Directory.Exists(baseFoler))
@@ -93,17 +105,20 @@ namespace GitHubFolderDownloader.Core
                         onPercentChange: downloadPercent =>
                         {
                             localItem.DownloadPercent = downloadPercent;
-                            if (downloadPercent == 100)
-                            {
-                                DispatcherHelper.DispatchAction(
-                                    () => _guiModelData.GitHubEntries.Remove(localItem));
-                            }
+                            // if (downloadPercent == 100)
+                            // {
+                            //     DispatcherHelper.DispatchAction(
+                            //         () => _guiModelData.GitHubEntries.Remove(localItem));
+                            // }
                         });
                 }
                 catch (Exception ex)
                 {
-                    AppMessenger.Messenger.NotifyColleagues("ShowLog",
-                        string.Format("{0} -> {1}", localItem.DownloadUrl, ex.Message));
+<<<<<<< HEAD
+                    Trace.WriteLine($"{localItem.DownloadUrl} -> {ex.Message}", "Error");
+=======
+                    Trace.WriteLine($"{localItem.DownloadUrl} -> {ex.Message}", "Errors");
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                 }
             };
             return action;
@@ -159,7 +174,11 @@ namespace GitHubFolderDownloader.Core
             }
             catch (Exception ex)
             {
-                AppMessenger.Messenger.NotifyColleagues("ShowLog", ex.Message);
+<<<<<<< HEAD
+                Trace.WriteLine(ex.Message, "Error");
+=======
+                Trace.WriteLine(ex.Message, "Errors");
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
             }
             finally
             {

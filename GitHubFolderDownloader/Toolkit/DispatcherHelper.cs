@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Threading;
+using Avalonia.Threading;
 
 namespace GitHubFolderDownloader.Toolkit
 {
@@ -9,12 +8,11 @@ namespace GitHubFolderDownloader.Toolkit
         public static void DispatchAction(Action action,
             DispatcherPriority dispatcherPriority = DispatcherPriority.Background)
         {
-            var dispatcher = Application.Current != null ? Application.Current.Dispatcher : Dispatcher.CurrentDispatcher;
 
-            if (action == null || dispatcher == null)
+            if (action == null)
                 return;
 
-            dispatcher.Invoke(dispatcherPriority, action);
+            Dispatcher.UIThread.InvokeAsync(action, dispatcherPriority);
         }
     }
 }

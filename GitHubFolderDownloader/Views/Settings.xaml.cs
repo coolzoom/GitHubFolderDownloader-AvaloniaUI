@@ -1,10 +1,18 @@
-﻿namespace GitHubFolderDownloader.Views
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+
+namespace GitHubFolderDownloader.Views
 {
-    public partial class Settings
+    public class Settings : UserControl
     {
         public Settings()
         {
             InitializeComponent();
+        }
+        public void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
         }
     }
 }

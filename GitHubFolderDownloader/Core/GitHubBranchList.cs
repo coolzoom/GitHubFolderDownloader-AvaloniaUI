@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using GitHubFolderDownloader.Models;
@@ -23,14 +24,14 @@ namespace GitHubFolderDownloader.Core
             {
                 if (!NetworkStatus.IsConnectedToInternet())
                 {
-                    AppMessenger.Messenger.NotifyColleagues("ShowLog", "The internet connection was not found.");
+                    Trace.WriteLine("The internet connection was not found.", "Logs");
                     return null;
                 }
 
                 var entries = getGitHubBranches();
                 if (!entries.Any())
                 {
-                    AppMessenger.Messenger.NotifyColleagues("ShowLog", "Failed to list branches.");
+                    Trace.WriteLine("Failed to list branches.", "Logs");
                     return null;
                 }
 
@@ -43,7 +44,11 @@ namespace GitHubFolderDownloader.Core
                     {
                         task.Exception.Flatten().Handle(ex =>
                         {
-                            AppMessenger.Messenger.NotifyColleagues("ShowLog", ex.Message);
+<<<<<<< HEAD
+                            Trace.WriteLine(ex.Message, "Error");
+=======
+                            Trace.WriteLine(ex.Message, "Errors");
+>>>>>>> 2d333c347ab4bd8ae79a1c147d7204502bc6d545
                             return false;
                         });
                     }
@@ -61,7 +66,7 @@ namespace GitHubFolderDownloader.Core
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Add("user-agent", Downloader.UA);
-                webClient.Headers.Add("Authorization", string.Format("Token {0}", _guiModelData.GitHubToken));
+                webClient.Headers.Add("Authorization", string.Format("Token {0}", _guiModelData));
                 var jsonData = webClient.DownloadString(url);
                 return JsonConvert.DeserializeObject<GitHubBranch[]>(jsonData);
             }
