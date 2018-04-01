@@ -19,7 +19,7 @@ namespace GitHubFolderDownloader.Models
         private string _repositoryOwner;
         private string _repositorySubDir;
         private string _selectedBranch = string.Empty;
-        private List<string> _branches = new List<string> { "master" };
+        private ObservableCollection<string> _branches = new ObservableCollection<string>();
         private TraceRedirector _traceRedirector;
         private bool _hasStarted;
 
@@ -141,7 +141,7 @@ namespace GitHubFolderDownloader.Models
             }
         }
 
-        public List<string> Branches
+        public ObservableCollection<string> Branches
         {
             get { return _branches; }
             set

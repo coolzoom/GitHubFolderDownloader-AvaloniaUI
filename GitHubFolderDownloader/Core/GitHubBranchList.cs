@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GitHubFolderDownloader.Models;
 using GitHubFolderDownloader.Toolkit;
 using Newtonsoft.Json;
+using System;
 
 namespace GitHubFolderDownloader.Core
 {
@@ -52,7 +53,12 @@ namespace GitHubFolderDownloader.Core
                 }
 
                 var entries = task.Result;
-                _GuiState.Branches = entries?.Select(x => x.Name).ToList();
+
+                _GuiState.Branches.Clear();
+
+                foreach (var branches in entries?.Select(x => x.Name))
+                    _GuiState.Branches.Add(branches);
+
             }, taskScheduler);
         }
 
@@ -62,9 +68,9 @@ namespace GitHubFolderDownloader.Core
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Add("user-agent", Downloader.UA);
-                webClient.Headers.Add("Authorization", string.Format("Token {0}", _GuiState));
                 var jsonData = webClient.DownloadString(url);
                 return JsonConvert.DeserializeObject<GitHubBranch[]>(jsonData);
+
             }
         }
     }
