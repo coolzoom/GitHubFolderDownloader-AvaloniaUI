@@ -16,9 +16,6 @@ namespace GitHubFolderDownloader.ViewModels
     public class MainWindowViewModel
     {
         private readonly GitHubDownloader _gitHubDownloader;
-        private bool _isStarted;
-
-
 
         public MainWindowViewModel()
         {
@@ -35,7 +32,7 @@ namespace GitHubFolderDownloader.ViewModels
                 Finished = url =>
                 {
                     Trace.WriteLine($"Finished {url}.", "Info");
-                    _isStarted = false;
+                    DispatcherHelper.DispatchAction(() => GuiModelData.HasStarted = false);
                 }
             };
 
@@ -47,6 +44,7 @@ namespace GitHubFolderDownloader.ViewModels
         }
 
         public string Title { get; set; } = $"Github Folder Downloader 2.0.0";
+
         public GuiModel GuiModelData { set; get; }
 
         public ReactiveCommand StartCommand { get; set; }
@@ -56,11 +54,12 @@ namespace GitHubFolderDownloader.ViewModels
         private IObservable<bool> CanDownloadExecute =>
             GuiModelData.WhenAnyValue(x => x.RepositoryName,
                                       x => x.RepositoryOwner,
-                                      x => x.OutputPath, (a, b, c) =>
+                                      x => x.OutputPath,
+                                      x => x.HasStarted, (a, b, c, d) =>
                                         !string.IsNullOrWhiteSpace(a) &&
                                         !string.IsNullOrWhiteSpace(b) &&
                                         !string.IsNullOrWhiteSpace(c) &&
-                                        !_isStarted);
+                                        !d);
 
 
 
@@ -70,20 +69,17 @@ namespace GitHubFolderDownloader.ViewModels
             _gitHubDownloader.Stop();
         }
 
-
         private void StartDownload()
         {
-            _isStarted = true;
-
+            GuiModelData.HasStarted = true;
             SaveSettings();
-
             _gitHubDownloader.Start();
         }
 
         private void StopDownload()
         {
             _gitHubDownloader.Stop();
-            _isStarted = false;
+            GuiModelData.HasStarted = false;
         }
 
         private void PropertyChanged(object sender, PropertyChangedEventArgs e)
