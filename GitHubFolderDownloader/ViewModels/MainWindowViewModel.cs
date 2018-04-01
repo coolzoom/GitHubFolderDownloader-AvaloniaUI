@@ -61,8 +61,6 @@ namespace GitHubFolderDownloader.ViewModels
                                         !string.IsNullOrWhiteSpace(c) &&
                                         !d);
 
-
-
         private void ExitApp(object sender, EventArgs e)
         {
             SaveSettings();

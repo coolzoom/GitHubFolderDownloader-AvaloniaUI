@@ -3,8 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:m="clr-namespace:GitHubFolderDownloader.Models.GitHubEntry"
     xmlns:converters="clr-namespace:GitHubFolderDownloader.Converters">
-    <StackPanel>
-        <ListBox Height="100" Items="{Binding GuiState.GitHubEntries}">
+
+    <DockPanel>
+      <ProgressBar Value="{Binding GuiState.ProgressBarValue}" DockPanel.Dock="Bottom" Height="20"/>
+      <ListBox Items="{Binding GuiState.GitHubEntries}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -17,6 +19,5 @@
             </ListBox.ItemTemplate>
             <!-- <ListView.DataTemplate><GridView><GridViewColumn Width="300" Header="Path"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn><GridViewColumn Width="80" Header="Type"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn><GridViewColumn Width="80" Header="Size"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn><GridViewColumn Width="100" Header="Progress"><GridViewColumn.CellTemplate><DataTemplate></DataTemplate></GridViewColumn.CellTemplate></GridViewColumn></GridView></ListView.View> -->
         </ListBox>
-        <ProgressBar Value="{Binding GuiState.ProgressBarValue}" Margin="3"/>
-    </StackPanel>
+    </DockPanel>
 </UserControl>
