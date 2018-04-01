@@ -4,17 +4,15 @@
     xmlns:converters="clr-namespace:GitHubFolderDownloader.Converters">
     <Grid>
         <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto,Auto">
-            <TextBlock Text="GitHub's Folder URL:" Margin="2" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
-            <TextBox Grid.Column="1" Name="TxtFullUrl" Watermark="Optional" Background="Transparent" Text="{Binding GuiModelData.RepositoryFolderFullUrl}" Grid.Row="0" Margin="2" VerticalAlignment="Center"/>
-            <TextBlock Text="GitHub's API URL:" Margin="2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" />
-            <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+            <!--<TextBlock Text="GitHub's API URL:" Margin="2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" />-->
+            <!--<Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                 <TextBlock Grid.Column="0" Text="https://api.github.com/repos/" Margin="2" VerticalAlignment="Center"/>
                 <TextBox Grid.Column="1" Margin="2" Watermark="Repository Owner" Background="Transparent" MinWidth="100" Name="TxtRepositoryOwner" Text="{Binding GuiModelData.RepositoryOwner}" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="2" Text="/" Margin="2" VerticalAlignment="Center"/>
                 <TextBox Grid.Column="3" Margin="2" Watermark="Repository Name" Background="Transparent" MinWidth="100" Name="TxtRepositoryName" Text="{Binding GuiModelData.RepositoryName}" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="4" Text="/" Margin="2" VerticalAlignment="Center"/>
                 <TextBox Grid.Column="5" Margin="2" Background="Transparent" Watermark="Repository Folder" MinWidth="100" Name="TxtRepositorySubDir" Text="{Binding GuiModelData.RepositorySubDir}" VerticalAlignment="Center"/>
-            </Grid>
+            </Grid>-->
             <TextBlock Text="Branch:" Margin="2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" />
             <DropDown Items="{Binding GuiModelData.Branches}" SelectedItem="{Binding GuiModelData.SelectedBranch}" Margin="2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"/>
             <TextBlock Text="GitHub's Token:" Margin="2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" />

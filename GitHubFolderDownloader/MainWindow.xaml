@@ -3,16 +3,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:behaviors="clr-namespace:GitHubFolderDownloader.Behaviors" 
     xmlns:viewModels="clr-namespace:GitHubFolderDownloader.ViewModels" 
-    xmlns:views="clr-namespace:GitHubFolderDownloader.Views" Title="{Binding Title}" Height="542" Width="720">
+    xmlns:views="clr-namespace:GitHubFolderDownloader.Views;assembly=GitHubFolderDownloader"
+    Title="{Binding Title}" Height="542" Width="720">
     <StackPanel>
-        <StackPanel Grid.Row="1" Grid.RowSpan="1" Margin="5" Orientation="Horizontal">
-            <Button Command="{Binding StartCommand}">
-                <Image Source="resm:GitHubFolderDownloader.Images.run.png"/>
+      <DockPanel Grid.Row="1" Grid.RowSpan="1" Margin="5" >
+            <Button Command="{Binding StartCommand}" 
+                    Background="Transparent"
+                    BorderThickness="0"
+                    ToolTip.Tip="Download Folder">
+              <Canvas Width="24" Height="24">
+                <Path Fill="Green" Data="M8,5.14V19.14L19,12.14L8,5.14Z" />
+              </Canvas>         
             </Button>
-            <Button Command="{Binding StopCommand}">
-                <Image Source="resm:GitHubFolderDownloader.Images.stop.png"/>
+            <Button Command="{Binding StopCommand}" 
+                    Background="Transparent"
+                    BorderThickness="0"
+                    ToolTip.Tip="Stop Download">
+              <Canvas Width="24" Height="24">
+                <Path Fill="DarkRed" Data="M18,18H6V6H18V18Z" />
+              </Canvas>
             </Button>
-        </StackPanel>
+        
+          <TextBox Watermark="GitHub's Folder URL" Grid.Column="1" Name="TxtFullUrl"
+                   Background="Transparent" Text="{Binding GuiModelData.RepositoryFolderFullUrl}"
+                   Margin="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+        </DockPanel>
         <views:Settings/>
         <views:Progress/>
         <TextBox AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap" 

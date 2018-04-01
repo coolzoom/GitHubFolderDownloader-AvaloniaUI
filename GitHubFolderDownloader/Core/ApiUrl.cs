@@ -67,6 +67,7 @@ namespace GitHubFolderDownloader.Core
             var url = string.Format("https://api.github.com/repos/{0}/{1}/branches",
                 Uri.EscapeUriString(_guiModelData.RepositoryOwner),
                 Uri.EscapeUriString(_guiModelData.RepositoryName));
+
             return url;
         }
     }

@@ -55,7 +55,7 @@ namespace GitHubFolderDownloader.Core
             _cancellationToken.Cancel();
         }
 
-        private static string getOutFolder(GitHubEntry localItem, string baseFoler)
+        private static string GetOutputFolder(GitHubEntry localItem, string baseFoler)
         {
             var pathDir = Path.GetDirectoryName(localItem.Path);
             var outFolder = Path.Combine(baseFoler, pathDir);
@@ -148,7 +148,7 @@ namespace GitHubFolderDownloader.Core
                     {
                         DispatcherHelper.DispatchAction(() => _guiModelData.GitHubEntries.Add(localItem));
 
-                        outFolder = getOutFolder(localItem, baseFoler);
+                        outFolder = GetOutputFolder(localItem, baseFoler);
                         var action = getDownloadTask(localItem, outFolder);
                         var task = Task.Factory.StartNew(
                             action,
