@@ -10,11 +10,11 @@ namespace GitHubFolderDownloader.Core
 {
     public class GitHubBranchList
     {
-        private readonly GuiModel _guiModelData;
+        private readonly GuiModel _GuiState;
 
-        public GitHubBranchList(GuiModel guiModelData)
+        public GitHubBranchList(GuiModel GuiState)
         {
-            _guiModelData = guiModelData;
+            _GuiState = GuiState;
         }
 
         public void SetBranchesList()
@@ -52,17 +52,17 @@ namespace GitHubFolderDownloader.Core
                 }
 
                 var entries = task.Result;
-                _guiModelData.Branches = entries?.Select(x => x.Name).ToList();
+                _GuiState.Branches = entries?.Select(x => x.Name).ToList();
             }, taskScheduler);
         }
 
         private GitHubBranch[] getGitHubBranches()
         {
-            var url = new ApiUrl(_guiModelData).GetBranchesApiUrl();
+            var url = new ApiUrl(_GuiState).GetBranchesApiUrl();
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Add("user-agent", Downloader.UA);
-                webClient.Headers.Add("Authorization", string.Format("Token {0}", _guiModelData));
+                webClient.Headers.Add("Authorization", string.Format("Token {0}", _GuiState));
                 var jsonData = webClient.DownloadString(url);
                 return JsonConvert.DeserializeObject<GitHubBranch[]>(jsonData);
             }

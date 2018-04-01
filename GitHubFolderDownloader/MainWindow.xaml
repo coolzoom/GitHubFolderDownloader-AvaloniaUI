@@ -1,23 +1,27 @@
-﻿ <Window 
-    xmlns="https://github.com/avaloniaui" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:behaviors="clr-namespace:GitHubFolderDownloader.Behaviors" 
-    xmlns:viewModels="clr-namespace:GitHubFolderDownloader.ViewModels" 
-    xmlns:views="clr-namespace:GitHubFolderDownloader.Views;assembly=GitHubFolderDownloader"
-    Title="{Binding Title}" Height="542" Width="720">
-    <StackPanel>
-      <DockPanel Grid.Row="1" Grid.RowSpan="1" Margin="5" >
-            <Button Command="{Binding StartCommand}" Classes="t1" ToolTip.Tip="Start Download" Content="{DynamicResource Run}"/>
-        <Button Command="{Binding StopCommand}" Classes="t1" ToolTip.Tip="Stop Download" Content="{DynamicResource Stop}"/>
-        
-          <TextBox Watermark="GitHub's Folder URL" Grid.Column="1" Name="TxtFullUrl"
-                   Background="Transparent" Text="{Binding GuiModelData.RepositoryFolderFullUrl}"
-                   Margin="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-
-        </DockPanel>
-        <views:Settings/>
-        <views:Progress/>
-        <TextBox AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap" 
-        VerticalAlignment="Stretch" Text="{Binding GuiModelData.Logs}" MinHeight="100" MaxHeight="200" Margin="2"/>
-    </StackPanel>
+﻿<Window
+   xmlns="https://github.com/avaloniaui"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:behaviors="clr-namespace:GitHubFolderDownloader.Behaviors"
+   xmlns:viewModels="clr-namespace:GitHubFolderDownloader.ViewModels"
+   xmlns:views="clr-namespace:GitHubFolderDownloader.Views;assembly=GitHubFolderDownloader"
+   Title="{Binding Title}" MinHeight="390" MinWidth="450">
+  <StackPanel Margin="10">
+    <DockPanel Grid.Row="1" Grid.RowSpan="1" Margin="5" >
+      <Button Command="{Binding StartCommand}" Classes="t1" ToolTip.Tip="Start Download" Content="{DynamicResource Run}"/>
+      <Button Command="{Binding StopCommand}" Classes="t1" ToolTip.Tip="Stop Download" Content="{DynamicResource Stop}"/>
+      <TextBox Watermark="GitHub's Folder URL" Grid.Column="1" Name="TxtFullUrl"
+               Background="Transparent" Text="{Binding GuiState.RepositoryFolderFullUrl}"
+               VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+    </DockPanel>
+    <views:Settings/>
+    <views:Progress/>
+    <TextBox AcceptsReturn="True"
+             IsReadOnly="True" 
+             TextWrapping="Wrap"
+             VerticalAlignment="Stretch"
+             Text="{Binding GuiState.Logs}"
+             MinHeight="100"
+             MaxHeight="200"
+             Margin="2"/>
+  </StackPanel>
 </Window>

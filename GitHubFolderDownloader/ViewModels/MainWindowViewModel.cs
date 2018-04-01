@@ -20,19 +20,19 @@ namespace GitHubFolderDownloader.ViewModels
         public MainWindowViewModel()
         {
 
-            GuiModelData = new GuiModel
+            GuiState = new GuiModel
             {
                 GitHubToken = PersistentConfig.GetConfigData("GitHubToken")
             };
 
-            GuiModelData.PropertyChanged += PropertyChanged;
+            GuiState.PropertyChanged += PropertyChanged;
 
-            _gitHubDownloader = new GitHubDownloader(GuiModelData)
+            _gitHubDownloader = new GitHubDownloader(GuiState)
             {
                 Finished = url =>
                 {
                     Trace.WriteLine($"Finished {url}.", "Info");
-                    DispatcherHelper.DispatchAction(() => GuiModelData.HasStarted = false);
+                    DispatcherHelper.DispatchAction(() => GuiState.HasStarted = false);
                 }
             };
 
@@ -45,14 +45,14 @@ namespace GitHubFolderDownloader.ViewModels
 
         public string Title { get; set; } = $"Github Folder Downloader 2.0.0";
 
-        public GuiModel GuiModelData { set; get; }
+        public GuiModel GuiState { set; get; }
 
         public ReactiveCommand StartCommand { get; set; }
 
         public ReactiveCommand StopCommand { set; get; }
 
         private IObservable<bool> CanDownloadExecute =>
-            GuiModelData.WhenAnyValue(x => x.RepositoryName,
+            GuiState.WhenAnyValue(x => x.RepositoryName,
                                       x => x.RepositoryOwner,
                                       x => x.OutputPath,
                                       x => x.HasStarted, (a, b, c, d) =>
@@ -71,7 +71,7 @@ namespace GitHubFolderDownloader.ViewModels
 
         private void StartDownload()
         {
-            GuiModelData.HasStarted = true;
+            GuiState.HasStarted = true;
             SaveSettings();
             _gitHubDownloader.Start();
         }
@@ -79,7 +79,7 @@ namespace GitHubFolderDownloader.ViewModels
         private void StopDownload()
         {
             _gitHubDownloader.Stop();
-            GuiModelData.HasStarted = false;
+            GuiState.HasStarted = false;
         }
 
         private void PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -87,8 +87,8 @@ namespace GitHubFolderDownloader.ViewModels
             switch (e.PropertyName)
             {
                 case "RepositoryFolderFullUrl":
-                    new ApiUrl(GuiModelData).SetApiSegments();
-                    new GitHubBranchList(GuiModelData).SetBranchesList();
+                    new ApiUrl(GuiState).SetApiSegments();
+                    new GitHubBranchList(GuiState).SetBranchesList();
                     break;
             }
         }
@@ -101,9 +101,9 @@ namespace GitHubFolderDownloader.ViewModels
 
         private void SaveSettings()
         {
-            if (!string.IsNullOrWhiteSpace(GuiModelData.GitHubToken))
+            if (!string.IsNullOrWhiteSpace(GuiState.GitHubToken))
             {
-                PersistentConfig.SetConfigData("GitHubToken", GuiModelData.GitHubToken);
+                PersistentConfig.SetConfigData("GitHubToken", GuiState.GitHubToken);
             }
         }
 

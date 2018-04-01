@@ -7,11 +7,11 @@ namespace GitHubFolderDownloader.Core
 {
     public class ApiUrl
     {
-        private readonly GuiModel _guiModelData;
+        private readonly GuiModel _GuiState;
 
-        public ApiUrl(GuiModel guiModelData)
+        public ApiUrl(GuiModel GuiState)
         {
-            _guiModelData = guiModelData;
+            _GuiState = GuiState;
         }
 
         public string GetApiUrl(string repositorySubDir, string branch)
@@ -34,8 +34,8 @@ namespace GitHubFolderDownloader.Core
             }
 
             var url = string.Format("https://api.github.com/repos/{0}/{1}/contents/{2}{3}",
-                Uri.EscapeUriString(_guiModelData.RepositoryOwner),
-                Uri.EscapeUriString(_guiModelData.RepositoryName),
+                Uri.EscapeUriString(_GuiState.RepositoryOwner),
+                Uri.EscapeUriString(_GuiState.RepositoryName),
                 Uri.EscapeUriString(repositorySubDir),
                 branchName);
             return url;
@@ -45,16 +45,16 @@ namespace GitHubFolderDownloader.Core
         {
             try
             {
-                var uri = new Uri(_guiModelData.RepositoryFolderFullUrl);
-                _guiModelData.RepositoryOwner = Uri.UnescapeDataString(uri.Segments[1]);
-                _guiModelData.RepositoryName = Uri.UnescapeDataString(uri.Segments[2]);
+                var uri = new Uri(_GuiState.RepositoryFolderFullUrl);
+                _GuiState.RepositoryOwner = Uri.UnescapeDataString(uri.Segments[1]);
+                _GuiState.RepositoryName = Uri.UnescapeDataString(uri.Segments[2]);
 
                 var segments = new StringBuilder();
                 foreach (var segment in uri.Segments.Skip(5))
                 {
                     segments.Append(segment);
                 }
-                _guiModelData.RepositorySubDir = Uri.UnescapeDataString(segments.ToString());
+                _GuiState.RepositorySubDir = Uri.UnescapeDataString(segments.ToString());
             }
             catch
             {
@@ -65,8 +65,8 @@ namespace GitHubFolderDownloader.Core
         public string GetBranchesApiUrl()
         {
             var url = string.Format("https://api.github.com/repos/{0}/{1}/branches",
-                Uri.EscapeUriString(_guiModelData.RepositoryOwner),
-                Uri.EscapeUriString(_guiModelData.RepositoryName));
+                Uri.EscapeUriString(_GuiState.RepositoryOwner),
+                Uri.EscapeUriString(_GuiState.RepositoryName));
 
             return url;
         }

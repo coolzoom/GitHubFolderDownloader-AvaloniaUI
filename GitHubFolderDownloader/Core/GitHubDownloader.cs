@@ -15,12 +15,12 @@ namespace GitHubFolderDownloader.Core
     public class GitHubDownloader
     {
         private readonly CancellationTokenSource _cancellationToken = new CancellationTokenSource();
-        private readonly GuiModel _guiModelData;
+        private readonly GuiModel _GuiState;
         private readonly ParallelTasksQueue _parallelTasksQueue = new ParallelTasksQueue(Environment.ProcessorCount);
 
-        public GitHubDownloader(GuiModel guiModelData)
+        public GitHubDownloader(GuiModel GuiState)
         {
-            _guiModelData = guiModelData;
+            _GuiState = GuiState;
         }
 
         public Action<string> Finished { set; get; }
@@ -31,14 +31,14 @@ namespace GitHubFolderDownloader.Core
             {
 
                 DispatcherHelper.DispatchAction(
-                    () => _guiModelData.GitHubEntries.Clear());
+                    () => _GuiState.GitHubEntries.Clear());
                 if (!NetworkStatus.IsConnectedToInternet())
                 {
                     Trace.WriteLine("Internet connection is not avalaible.", "Error");
                     return;
                 }
 
-                var entries = getGitHubEntries(_guiModelData.RepositorySubDir, _guiModelData.SelectedBranch);
+                var entries = getGitHubEntries(_GuiState.RepositorySubDir, _GuiState.SelectedBranch);
                 if (!entries.Any())
                 {
                     Trace.WriteLine("The folder is empty.", "Error");
@@ -70,12 +70,12 @@ namespace GitHubFolderDownloader.Core
 
         private string getApiRootUrl()
         {
-            return new ApiUrl(_guiModelData).GetApiUrl(_guiModelData.RepositorySubDir, _guiModelData.SelectedBranch);
+            return new ApiUrl(_GuiState).GetApiUrl(_GuiState.RepositorySubDir, _GuiState.SelectedBranch);
         }
 
         private string getBaseFolder()
         {
-            var baseFoler = _guiModelData.OutputPath;
+            var baseFoler = _GuiState.OutputPath;
             if (!Directory.Exists(baseFoler))
             {
                 Directory.CreateDirectory(baseFoler);
@@ -100,7 +100,7 @@ namespace GitHubFolderDownloader.Core
                             // if (downloadPercent == 100)
                             // {
                             //     DispatcherHelper.DispatchAction(
-                            //         () => _guiModelData.GitHubEntries.Remove(localItem));
+                            //         () => _GuiState.GitHubEntries.Remove(localItem));
                             // }
                         });
                 }
@@ -114,11 +114,11 @@ namespace GitHubFolderDownloader.Core
 
         private GitHubEntry[] getGitHubEntries(string repositorySubDir, string branch)
         {
-            var url = new ApiUrl(_guiModelData).GetApiUrl(repositorySubDir, branch);
+            var url = new ApiUrl(_GuiState).GetApiUrl(repositorySubDir, branch);
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Add("user-agent", Downloader.UA);
-                webClient.Headers.Add("Authorization", string.Format("Token {0}", _guiModelData.GitHubToken));
+                webClient.Headers.Add("Authorization", string.Format("Token {0}", _GuiState.GitHubToken));
                 var jsonData = webClient.DownloadString(url);
                 return JsonConvert.DeserializeObject<GitHubEntry[]>(jsonData);
             }
@@ -136,7 +136,7 @@ namespace GitHubFolderDownloader.Core
 
                     if (localItem.Type.Equals("dir"))
                     {
-                        var subEntries = getGitHubEntries(localItem.Path, _guiModelData.SelectedBranch);
+                        var subEntries = getGitHubEntries(localItem.Path, _GuiState.SelectedBranch);
                         if (!subEntries.Any())
                         {
                             continue;
@@ -146,7 +146,7 @@ namespace GitHubFolderDownloader.Core
                     }
                     else if (localItem.Type.Equals("file"))
                     {
-                        DispatcherHelper.DispatchAction(() => _guiModelData.GitHubEntries.Add(localItem));
+                        DispatcherHelper.DispatchAction(() => _GuiState.GitHubEntries.Add(localItem));
 
                         outFolder = GetOutputFolder(localItem, baseFoler);
                         var action = getDownloadTask(localItem, outFolder);
