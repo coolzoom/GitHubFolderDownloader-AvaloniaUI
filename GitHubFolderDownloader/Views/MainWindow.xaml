@@ -18,10 +18,10 @@
     </DockPanel>
     <views:Settings DockPanel.Dock="Top"/>
     <TabControl>
-      <TabItem Header="Download Progress">
+      <TabItem Header="Download Progress" Background="#01000000" >
         <views:Progress/>
       </TabItem>
-      <TabItem Header="Logs">
+      <TabItem Header="Logs" Background="#01000000">
         <TextBox AcceptsReturn="True"
          IsReadOnly="True"
          TextWrapping="Wrap"

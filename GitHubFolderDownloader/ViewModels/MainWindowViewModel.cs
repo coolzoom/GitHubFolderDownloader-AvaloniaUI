@@ -10,6 +10,7 @@ using Avalonia;
 using System.Reactive.Linq;
 using System.Diagnostics;
 using System.Reflection;
+using Avalonia.Controls;
 
 namespace GitHubFolderDownloader.ViewModels
 {
@@ -25,7 +26,9 @@ namespace GitHubFolderDownloader.ViewModels
                 GitHubToken = PersistentConfig.GetConfigData("GitHubToken")
             };
 
-            GuiState.PropertyChanged += PropertyChanged;
+            GuiState.WhenAnyValue(p => p.RepositoryFolderFullUrl)
+                    .Throttle(TimeSpan.FromMilliseconds(250))
+                    .Subscribe(_ => ValidateAndExecuteURL(_));
 
             _gitHubDownloader = new GitHubDownloader(GuiState)
             {
@@ -37,17 +40,60 @@ namespace GitHubFolderDownloader.ViewModels
             };
 
             StartCommand = ReactiveCommand.Create(() => StartDownload(), CanStartDownloadExecute);
-            StopCommand = ReactiveCommand.Create(() => StopDownload(), CanStopDownloadExecute);
-            
+            StopCommand = ReactiveCommand.Create(() => StopDownload());
+            OpenFolderCommand = ReactiveCommand.Create(() => GetSaveFolder());
+
+        }
+
+        private async void GetSaveFolder()
+        {
+            var dialog = new OpenFolderDialog();
+            dialog.Title = "Select directory to save downloads";
+            dialog.InitialDirectory = GuiState.OutputPath;
+            var k = await dialog.ShowAsync();
+            GuiState.OutputPath = k;
+        }
+
+        private void ValidateAndExecuteURL(string _)
+        {
+            bool isValidUrl = Uri.TryCreate(_, UriKind.Absolute, out var target);
+
+            if (isValidUrl)
+            {
+                isValidUrl &= (target.Scheme == Uri.UriSchemeHttp || target.Scheme == Uri.UriSchemeHttps);
+                isValidUrl &= (target.Host == "github.com");
+            }
+
+            if (isValidUrl)
+            {
+                try
+                {
+                    DispatcherHelper.DispatchAction(() =>
+                    {
+                        new ApiUrl(GuiState).SetApiSegments();
+                        new GitHubBranchList(GuiState).SetBranchesList(true);
+                        GuiState.IsValidRepoURL = true;
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e.Message, "Error");
+                }
+            }
+
+            DispatcherHelper.DispatchAction(() => GuiState.IsValidRepoURL = false);
+
         }
 
         public string Title { get; set; } = $"Github Folder Downloader 2.0.0";
 
         public GuiModel GuiState { set; get; }
-
         public ReactiveCommand StartCommand { get; set; }
 
         public ReactiveCommand StopCommand { set; get; }
+
+        public ReactiveCommand OpenFolderCommand { set; get; }
 
         private IObservable<bool> CanStartDownloadExecute =>
             GuiState.WhenAnyValue(x => x.RepositoryName,
@@ -58,10 +104,6 @@ namespace GitHubFolderDownloader.ViewModels
                                         !string.IsNullOrWhiteSpace(b) &&
                                         !string.IsNullOrWhiteSpace(c) &&
                                         !d);
-
-        private IObservable<bool> CanStopDownloadExecute => 
-            GuiState.WhenAnyValue(x => x.HasStarted, 
-                                      (a) => a == true);
 
         public void Exit()
         {
@@ -82,17 +124,6 @@ namespace GitHubFolderDownloader.ViewModels
             GuiState.HasStarted = false;
         }
 
-        private void PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "RepositoryFolderFullUrl":
-                    new ApiUrl(GuiState).SetApiSegments();
-                    new GitHubBranchList(GuiState).SetBranchesList();
-                    break;
-            }
-        }
-        
         private void SaveSettings()
         {
             if (!string.IsNullOrWhiteSpace(GuiState.GitHubToken))
@@ -100,6 +131,6 @@ namespace GitHubFolderDownloader.ViewModels
                 PersistentConfig.SetConfigData("GitHubToken", GuiState.GitHubToken);
             }
         }
-         
+
     }
 }

@@ -6,20 +6,8 @@ namespace GitHubFolderDownloader.Models
 {
     public class GitHubEntry : INotifyPropertyChanged
     {
-        private int _downloadPercent;
-
         public string ConvertedSize => Size.ToBytesReadable();
-
-        public int DownloadPercent
-        {
-            set
-            {
-                if (_downloadPercent == value) return;
-                _downloadPercent = value;
-                NotifyPropertyChanged(nameof(DownloadPercent));
-            }
-            get { return _downloadPercent; }
-        }
+        public int DownloadPercent { get; set; }
 
         [JsonProperty(PropertyName = "download_url")]
         public string DownloadUrl { set; get; }
@@ -33,13 +21,9 @@ namespace GitHubFolderDownloader.Models
         [JsonProperty(PropertyName = "type")]
         public string Type { set; get; }
 
-        
+#pragma warning disable CS0067
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
+#pragma warning restore CS0067
+
     }
 }

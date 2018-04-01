@@ -2,6 +2,7 @@
 using Avalonia.Logging.Serilog;
 using Avalonia.Markup.Xaml;
 using GitHubFolderDownloader.ViewModels;
+using GitHubFolderDownloader.Views;
 
 namespace GitHubFolderDownloader
 {
@@ -14,7 +15,7 @@ namespace GitHubFolderDownloader
         
         static void Main(string[] args)
         {
-            BuildAvaloniaApp().Start<MainWindow>(() => new MainWindowViewModel());
+            BuildAvaloniaApp().Start<MainWindow>();
         }
 
         public static AppBuilder BuildAvaloniaApp()

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using GitHubFolderDownloader.ViewModels;
 
-namespace GitHubFolderDownloader
+namespace GitHubFolderDownloader.Views
 {
     public class MainWindow : Window
     {

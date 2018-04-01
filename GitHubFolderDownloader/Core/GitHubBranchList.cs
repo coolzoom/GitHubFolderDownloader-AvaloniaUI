@@ -18,7 +18,7 @@ namespace GitHubFolderDownloader.Core
             _GuiState = GuiState;
         }
 
-        public void SetBranchesList()
+        public void SetBranchesList(bool throwExceptions = false)
         {
             var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             Task.Factory.StartNew(() =>
@@ -43,11 +43,13 @@ namespace GitHubFolderDownloader.Core
                 {
                     if (task.Exception != null)
                     {
-                        task.Exception.Flatten().Handle(ex =>
-                        {
-                            Trace.WriteLine(ex.Message, "Error");
-                            return false;
-                        });
+                        if (!throwExceptions)
+                            task.Exception.Flatten().Handle(ex =>
+                            {
+                                Trace.WriteLine(ex.Message, "Error");
+                                return false;
+                            });
+                        else throw task.Exception;
                     }
                     return;
                 }

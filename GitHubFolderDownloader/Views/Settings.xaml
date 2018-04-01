@@ -4,15 +4,6 @@
     xmlns:converters="clr-namespace:GitHubFolderDownloader.Converters">
     <Grid>
         <Grid Margin="4" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto,Auto">
-            <!--<TextBlock Text="GitHub's API URL:" Margin="2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" />-->
-            <!--<Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-                <TextBlock Grid.Column="0" Text="https://api.github.com/repos/" Margin="2" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Margin="2" Watermark="Repository Owner" Background="Transparent" MinWidth="100" Name="TxtRepositoryOwner" Text="{Binding GuiState.RepositoryOwner}" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="/" Margin="2" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Margin="2" Watermark="Repository Name" Background="Transparent" MinWidth="100" Name="TxtRepositoryName" Text="{Binding GuiState.RepositoryName}" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="4" Text="/" Margin="2" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="5" Margin="2" Background="Transparent" Watermark="Repository Folder" MinWidth="100" Name="TxtRepositorySubDir" Text="{Binding GuiState.RepositorySubDir}" VerticalAlignment="Center"/>
-            </Grid>-->
             <TextBlock Text="Branch:" Margin="2" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" />
             <DropDown Items="{Binding GuiState.Branches}" SelectedItem="{Binding GuiState.SelectedBranch}" Margin="2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"/>
             <TextBlock Text="GitHub's Token:" Margin="2" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" />
@@ -20,9 +11,7 @@
             <!-- <TextBlock Foreground="Cyan" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Margin="2" VerticalAlignment="Center"><Hyperlink Foreground="Cyan" NavigateUri="https://github.com/settings/tokens" ToolTip="https://github.com/settings/tokens"><TextBlock Width="Auto" TextWrapping="Wrap" Foreground="Cyan" Text="Get Token" /></Hyperlink></TextBlock> -->
             <TextBlock Text="Output Path:" Margin="2" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" />
             <TextBox Grid.Column="1" Text="{Binding GuiState.OutputPath}" Grid.Row="4" Margin="2" VerticalAlignment="Center"/>
-            <Button Content="..." Margin="2" Padding="2" Grid.Column="2" Width="25" Grid.Row="4" HorizontalContentAlignment="Center" HorizontalAlignment="Left">
-                <!-- <i:Interaction.Triggers><i:EventTrigger EventName="Click"><behaviors:FolderBrowserDialogBehavior FolderBrowserDescription="Select a folder" FolderBrowserDialogResultCommand="{Binding GuiState.OutputPath, Mode=TwoWay}" /></i:EventTrigger></i:Interaction.Triggers> -->
-            </Button>
+            <Button Command="{Binding OpenFolderCommand}" Content="..." Margin="2" Padding="2" Grid.Column="2" Width="25" Grid.Row="4" HorizontalContentAlignment="Center" HorizontalAlignment="Left"/>
         </Grid>
     </Grid>
 </UserControl>

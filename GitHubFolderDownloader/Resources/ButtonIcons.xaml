@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Canvas x:Key="Download" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Canvas x:Key="Download" Width="24" Height="24">
         <Path Fill="#FF8DD28A" Data="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
     </Canvas>
-    <Canvas x:Key="Stop" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Canvas x:Key="Stop" Width="24" Height="24">
         <Path Fill="DarkRed" Data="M18,18H6V6H18V18Z" />
     </Canvas>
 </ResourceDictionary>

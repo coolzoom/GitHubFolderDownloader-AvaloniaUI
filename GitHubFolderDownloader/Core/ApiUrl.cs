@@ -42,24 +42,18 @@ namespace GitHubFolderDownloader.Core
         }
 
         public void SetApiSegments()
-        {
-            try
-            {
+        { 
                 var uri = new Uri(_GuiState.RepositoryFolderFullUrl);
-                _GuiState.RepositoryOwner = Uri.UnescapeDataString(uri.Segments[1]);
-                _GuiState.RepositoryName = Uri.UnescapeDataString(uri.Segments[2]);
+                _GuiState.RepositoryOwner = Uri.UnescapeDataString(uri.Segments[1]).Trim('/').Trim('\\');
+                _GuiState.RepositoryName = Uri.UnescapeDataString(uri.Segments[2]).Trim('/').Trim('\\');
 
                 var segments = new StringBuilder();
                 foreach (var segment in uri.Segments.Skip(5))
                 {
                     segments.Append(segment);
                 }
-                _GuiState.RepositorySubDir = Uri.UnescapeDataString(segments.ToString());
-            }
-            catch
-            {
-                /* doesn't matter */
-            }
+                _GuiState.RepositorySubDir = Uri.UnescapeDataString(segments.ToString()).Trim('/').Trim('\\');
+     
         }
 
         public string GetBranchesApiUrl()

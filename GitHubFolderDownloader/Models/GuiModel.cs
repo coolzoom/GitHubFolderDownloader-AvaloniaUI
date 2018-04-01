@@ -9,155 +9,36 @@ namespace GitHubFolderDownloader.Models
 {
     public class GuiModel : INotifyPropertyChanged
     {
-
-        private string _gitHubToken;
-        private String _logs;
-        private string _outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        private double _progressBarValue;
-        private string _repositoryFolderFullUrl;
-        private string _repositoryName;
-        private string _repositoryOwner;
-        private string _repositorySubDir;
-        private string _selectedBranch = string.Empty;
-        private ObservableCollection<string> _branches = new ObservableCollection<string>();
-        private TraceRedirector _traceRedirector;
-        private bool _hasStarted;
-
         public GuiModel()
         {
-            GitHubEntries = new ObservableCollection<GitHubEntry>();
-
-            _traceRedirector = new TraceRedirector();
+            var _traceRedirector = new TraceRedirector();
             Trace.Listeners.Add(_traceRedirector);
-            _traceRedirector.WriteAction = (_) =>
-            {
-                Logs += _;
-            };
+            _traceRedirector.WriteAction = _ => Logs += _;
         }
 
-        public ObservableCollection<GitHubEntry> GitHubEntries { set; get; }
+        public ObservableCollection<GitHubEntry> GitHubEntries { set; get; } = new ObservableCollection<GitHubEntry>();
 
-        public string GitHubToken
-        {
-            get { return _gitHubToken; }
-            set
-            {
-                _gitHubToken = value;
-                NotifyPropertyChanged(nameof(GitHubToken));
-            }
-        }
+        public string GitHubToken { get; set; }
 
-        public String Logs
-        {
-            get { return _logs; }
-            set
-            {
-                _logs = value;
-                NotifyPropertyChanged(nameof(Logs));
-            }
-        }
+        public string Logs { get; set; }
 
-        public string OutputPath
-        {
-            get { return _outputPath; }
-            set
-            {
-                _outputPath = value;
-                NotifyPropertyChanged(nameof(OutputPath));
-            }
-        }
+        public string OutputPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-        public double ProgressBarValue
-        {
-            get { return _progressBarValue; }
-            set
-            {
-                _progressBarValue = value;
-                NotifyPropertyChanged(nameof(ProgressBarValue));
-            }
-        }
+        public double ProgressBarValue { get; set; }
+        public string RepositoryFolderFullUrl { get; set; }
 
-        public string RepositoryFolderFullUrl
-        {
-            get { return _repositoryFolderFullUrl; }
-            set
-            {
-                _repositoryFolderFullUrl = value;
-                NotifyPropertyChanged(nameof(RepositoryFolderFullUrl));
-            }
-        }
+        public bool HasStarted { get; set; }
+        public bool IsValidRepoURL { get; set; }
+        public string RepositoryName { get; set; }
+        public string RepositoryOwner { get; set; }
+        public string RepositorySubDir { get; set; }
+        public string SelectedBranch { get; set; }
 
-        public bool HasStarted
-        {
-            get { return _hasStarted; }
-            set
-            {
-                _hasStarted = value;
-                NotifyPropertyChanged(nameof(HasStarted));
-            }
-        }
+        public ObservableCollection<string> Branches { get; set; } = new ObservableCollection<string>();
 
-        public string RepositoryName
-        {
-            get { return _repositoryName; }
-            set
-            {
-                if (value == null) value = string.Empty;
-                _repositoryName = value.Trim('/');
-                NotifyPropertyChanged(nameof(RepositoryName));
-            }
-        }
-
-        public string RepositoryOwner
-        {
-            get { return _repositoryOwner; }
-            set
-            {
-                if (value == null) value = string.Empty;
-                _repositoryOwner = value.Trim('/');
-                NotifyPropertyChanged(nameof(RepositoryOwner));
-            }
-        }
-
-        public string RepositorySubDir
-        {
-            get { return _repositorySubDir; }
-            set
-            {
-                if (value == null) value = string.Empty;
-                _repositorySubDir = value.Trim('/');
-                NotifyPropertyChanged(nameof(RepositorySubDir));
-            }
-        }
-
-        public string SelectedBranch
-        {
-            get { return _selectedBranch; }
-            set
-            {
-                if (value == null) value = string.Empty;
-                _selectedBranch = value.Trim('/');
-                NotifyPropertyChanged(nameof(SelectedBranch));
-            }
-        }
-
-        public ObservableCollection<string> Branches
-        {
-            get { return _branches; }
-            set
-            {
-                _branches = value;
-                NotifyPropertyChanged(nameof(Branches));
-            }
-        }
-
-
+        #pragma warning disable CS0067
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #pragma warning restore CS0067
 
     }
 }
