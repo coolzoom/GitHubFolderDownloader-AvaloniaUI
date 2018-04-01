@@ -10,7 +10,9 @@ namespace GitHubFolderDownloader
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+            var dt = new MainWindowViewModel();
+            this.DataContext = dt;
+            this.Closed += delegate { dt.Exit(); };
         }
 
         public void InitializeComponent()

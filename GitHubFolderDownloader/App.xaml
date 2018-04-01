@@ -3,7 +3,7 @@
   <Application.Styles>
     <StyleInclude Source="resm:Avalonia.Themes.Default.DefaultTheme.xaml?assembly=Avalonia.Themes.Default"/>
     <StyleInclude Source="resm:GitHubFolderDownloader.Accents.InvertedDark.xaml?assembly=GitHubFolderDownloader"/>
-    <StyleInclude Source="resm:GitHubFolderDownloader.Styles.ButtonStyles.xaml?assembly=GitHubFolderDownloader"/>
+    <StyleInclude Source="resm:GitHubFolderDownloader.Styles.CustomStyles.xaml?assembly=GitHubFolderDownloader"/>
   </Application.Styles>
   <Application.Resources>
     <ResourceDictionary>

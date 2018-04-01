@@ -36,11 +36,9 @@ namespace GitHubFolderDownloader.ViewModels
                 }
             };
 
-            StartCommand = ReactiveCommand.Create(() => StartDownload(), CanDownloadExecute);
-            StopCommand = ReactiveCommand.Create(() => StopDownload());
-
-            ManageAppExit();
-
+            StartCommand = ReactiveCommand.Create(() => StartDownload(), CanStartDownloadExecute);
+            StopCommand = ReactiveCommand.Create(() => StopDownload(), CanStopDownloadExecute);
+            
         }
 
         public string Title { get; set; } = $"Github Folder Downloader 2.0.0";
@@ -51,7 +49,7 @@ namespace GitHubFolderDownloader.ViewModels
 
         public ReactiveCommand StopCommand { set; get; }
 
-        private IObservable<bool> CanDownloadExecute =>
+        private IObservable<bool> CanStartDownloadExecute =>
             GuiState.WhenAnyValue(x => x.RepositoryName,
                                       x => x.RepositoryOwner,
                                       x => x.OutputPath,
@@ -61,7 +59,11 @@ namespace GitHubFolderDownloader.ViewModels
                                         !string.IsNullOrWhiteSpace(c) &&
                                         !d);
 
-        private void ExitApp(object sender, EventArgs e)
+        private IObservable<bool> CanStopDownloadExecute => 
+            GuiState.WhenAnyValue(x => x.HasStarted, 
+                                      (a) => a == true);
+
+        public void Exit()
         {
             SaveSettings();
             _gitHubDownloader.Stop();
@@ -90,13 +92,7 @@ namespace GitHubFolderDownloader.ViewModels
                     break;
             }
         }
-
-        private void ManageAppExit()
-        {
-            if (Application.Current == null) return;
-            Application.Current.OnExit += ExitApp;
-        }
-
+        
         private void SaveSettings()
         {
             if (!string.IsNullOrWhiteSpace(GuiState.GitHubToken))
@@ -104,6 +100,6 @@ namespace GitHubFolderDownloader.ViewModels
                 PersistentConfig.SetConfigData("GitHubToken", GuiState.GitHubToken);
             }
         }
-
+         
     }
 }
