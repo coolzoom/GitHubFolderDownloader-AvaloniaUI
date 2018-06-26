@@ -13,16 +13,22 @@
     <EmbeddedResource Include="**\*.xaml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="**\*.ttf"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.6.1" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.6.1" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.6.1" />
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.6.1" />
+    <PackageReference Include="Avalonia" Version="0.6.2-build*" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.6.2-build*" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.6.2-build*" />
+
     <PackageReference Include="Fody" Version="3.0.0" />
     <PackageReference Include="LiteDB" Version="4.1.2" />
     <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.3.0" />
+
+    <ProjectReference Include="..\DataGrid\src\Avalonia.DataGrid\Avalonia.DataGrid.csproj" />
+    <ProjectReference Include="..\DataGrid\src\Avalonia.DataGrid.Themes.Default\Avalonia.DataGrid.Themes.Default.csproj" />
+
+
   </ItemGroup>
 </Project>

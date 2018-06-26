@@ -1,32 +1,33 @@
 ﻿<Window
-   xmlns="https://github.com/avaloniaui"
-   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   xmlns:behaviors="clr-namespace:GitHubFolderDownloader.Behaviors"
-   xmlns:viewModels="clr-namespace:GitHubFolderDownloader.ViewModels"
-   xmlns:views="clr-namespace:GitHubFolderDownloader.Views;assembly=GitHubFolderDownloader"
-   Foreground="White"
-   Title="{Binding Title}" MinHeight="390" MinWidth="450" Height="390" Width="450">
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:behaviors="clr-namespace:GitHubFolderDownloader.Behaviors"
+  xmlns:viewModels="clr-namespace:GitHubFolderDownloader.ViewModels"
+  xmlns:views="clr-namespace:GitHubFolderDownloader.Views;assembly=GitHubFolderDownloader"
+  Foreground="White"
+  FontFamily="WeblySleek UI Normal"
+  Title="{Binding Title}" MinHeight="390" MinWidth="450" Height="390" Width="450">
   <DockPanel Margin="10">
     <DockPanel DockPanel.Dock="Top">
-      <Button  Command="{Binding StartCommand}" Classes="t1" 
-               ToolTip.Tip="Start Download" Content="{DynamicResource Download}"/>
-      <Button  Command="{Binding StopCommand}" Classes="t1"
-               ToolTip.Tip="Stop Download" Content="{DynamicResource Stop}"/>
-      <TextBox Watermark="Repo Folder URL" 
-               Text="{Binding GuiState.RepositoryFolderFullUrl}"
-               VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+      <Button Command="{Binding StartCommand}" Classes="t1"
+        ToolTip.Tip="Start Download" Content="{DynamicResource Download}"/>
+      <Button Command="{Binding StopCommand}" Classes="t1"
+        ToolTip.Tip="Stop Download" Content="{DynamicResource Stop}"/>
+      <TextBox Watermark="Repo Folder URL"
+        Text="{Binding GuiState.RepositoryFolderFullUrl}"
+        VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
     </DockPanel>
     <views:Settings DockPanel.Dock="Top"/>
     <TabControl>
-      <TabItem Header="Download Progress" Background="#01000000" >
+      <TabItem Header="Download Progress" Background="#01000000">
         <views:Progress/>
       </TabItem>
       <TabItem Header="Logs" Background="#01000000">
         <TextBox AcceptsReturn="True"
-         IsReadOnly="True"
-         TextWrapping="Wrap"
-         VerticalAlignment="Stretch"
-         Text="{Binding GuiState.Logs}"/>
+          IsReadOnly="True"
+          TextWrapping="Wrap"
+          VerticalAlignment="Stretch"
+          Text="{Binding GuiState.Logs}"/>
       </TabItem>
     </TabControl>
   </DockPanel>

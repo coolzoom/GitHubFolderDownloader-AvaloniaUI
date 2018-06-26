@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using GitHubFolderDownloader.Models;
@@ -28,7 +29,7 @@ namespace GitHubFolderDownloader.Core
             }
 
             var branchName = string.Empty;
-            if(!string.IsNullOrWhiteSpace(branch))
+            if (!string.IsNullOrWhiteSpace(branch))
             {
                 branchName = string.Format("?ref={0}", branch);
             }
@@ -42,7 +43,9 @@ namespace GitHubFolderDownloader.Core
         }
 
         public void SetApiSegments()
-        { 
+        {
+            try
+            {
                 var uri = new Uri(_GuiState.RepositoryFolderFullUrl);
                 _GuiState.RepositoryOwner = Uri.UnescapeDataString(uri.Segments[1]).Trim('/').Trim('\\');
                 _GuiState.RepositoryName = Uri.UnescapeDataString(uri.Segments[2]).Trim('/').Trim('\\');
@@ -53,7 +56,11 @@ namespace GitHubFolderDownloader.Core
                     segments.Append(segment);
                 }
                 _GuiState.RepositorySubDir = Uri.UnescapeDataString(segments.ToString()).Trim('/').Trim('\\');
-     
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         public string GetBranchesApiUrl()

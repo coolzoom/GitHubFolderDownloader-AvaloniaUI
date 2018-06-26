@@ -1,22 +1,37 @@
-﻿<UserControl 
-    xmlns="https://github.com/avaloniaui" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:m="clr-namespace:GitHubFolderDownloader.Models.GitHubEntry"
+    xmlns:dg="clr-namespace:Avalonia.Controls;assembly=Avalonia.DataGrid"
     xmlns:converters="clr-namespace:GitHubFolderDownloader.Converters">
 
     <DockPanel>
-      <ProgressBar Value="{Binding GuiState.ProgressBarValue}" DockPanel.Dock="Bottom" Height="20"/>
-      <ListBox Items="{Binding GuiState.GitHubEntries}" >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="1" Text="{Binding Path}" Width="300" />
-                        <TextBlock Margin="1" Text="{Binding Type}" Width="20" />
-                        <TextBlock Margin="1" Text="{Binding ConvertedSize}" />
-                        <ProgressBar HorizontalAlignment="Stretch" Value="{Binding DownloadPercent}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ProgressBar Value="{Binding GuiState.ProgressBarValue}" DockPanel.Dock="Bottom" Height="20"/>
+        <dg:DataGrid
+        Name="dataGrid1"
+        Items="{Binding GuiState.GitHubEntries}"
+        Margin="12"
+        CanUserResizeColumns="True"
+        CanUserReorderColumns="True">
+
+        <dg:DataGrid.Columns>
+      
+          <dg:DataGridTextColumn
+            Header="Path"
+            Binding="{Binding Path}"
+            Width="*" />
+          <dg:DataGridTextColumn
+            Header="Type"
+            Binding="{Binding Type}"
+            Width="*"/>
+          <dg:DataGridTextColumn
+            Header="Size"
+            Binding="{Binding ConvertedSize}"
+            Width="*"/> 
+      
+        </dg:DataGrid.Columns>
+    
+      </dg:DataGrid>
+
     </DockPanel>
 </UserControl>
